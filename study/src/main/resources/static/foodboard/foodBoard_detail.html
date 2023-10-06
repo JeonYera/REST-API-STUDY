@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 정보</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            width: 1200px;
+            padding: 20px;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        .navbar-brand {
+            font-size: 24px;
+        }
+        .display-4 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        .lead {
+            font-size: 18px;
+        }
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-3">
+    <a class="navbar-brand" href="/" style="margin-bottom: 50px;">맛있는여행</a>
+    <h1 id="title" class="display-4"></h1>
+    <p class="lead"><strong>작성자:</strong> <span id="userId"></span></p>
+    <p class="lead"><strong>작성일시:</strong> <span id="createdAt"></span></p>
+    <p class="lead"><strong>첨부파일:</strong> <span id="images"></span></p>
+    <hr>
+    <div id="content" class="mb-5"></div>
+    <button class="btn btn-primary" id="editButton" style="background-color: #58acfa; border: none;" onclick="editPost()">수정하기</button>
+    <button class="btn btn-danger mx-2" id="deleteButton" style="background-color: #c8c8c8; border: none;" onclick="deletePost()">삭제하기</button>
+    <a href="/foodboards" class="btn btn-secondary" style="background-color: #c8c8c8; border: none;">돌아가기</a>
+</div>
+</body>
+<script>
+    const url = new URL(window.location.href);
+    const id = url.pathname.split('/').pop();
+    const imagesElement = document.getElementById('images');
+
+    fetch(`http://localhost:8080/api/foodboards/${id}`)
+        .then(response => response.json())
+        .then(({ foodTitle, userId, foodCreatedAt, foodContent, images }) => {
+            document.querySelector("#title").innerHTML = `${foodTitle}`;
+            document.querySelector("#userId").innerHTML = `${userId}`;
+            document.querySelector("#createdAt").innerHTML = `${foodCreatedAt}`;
+            document.querySelector("#content").innerHTML = `${foodContent}`;
+
+            if (images && images.originName) {
+                imagesElement.innerHTML = `
+            <div>
+                <p>${images.originName}</p>
+                <img src="/images/${images.uniqueName}" />
+            </div>`;
+            } else if (images && images.length > 0) {
+                const imageNames = images.map(image => image.originName).join(', ');
+                imagesElement.innerHTML = `
+            <div>
+                <p>${imageNames}</p>
+                ${images.map(image => `
+                    <img src="/images/${image.uniqueName}" />
+                `).join('')}
+            </div>`;
+            } else {
+                imagesElement.innerHTML = '첨부된 이미지 없음';
+            }
+        });
+
+    const editPost = () => {
+        window.location.href = `/foodboards/edit/${id}`;
+    };
+
+    const deletePost = () => {
+        fetch(`/api/foodboards/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            }
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = "/foodboards";
+            } else {
+                throw new Error("네트워크 오류");
+            }
+        }).catch(error => {
+            console.error("Fetch error:", error);
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시판</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .container {
+    width: 1200px;
+  }
+  .navbar-nav {
+    margin: 0 auto;
+    justify-content: center;
+    gap: 100px;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  .navbar-brand {
+    margin: 0 auto;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+<div class="container my-2">
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
+    <a class="navbar-brand" href="/">맛있는여행</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/freeboards">자유게시판</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/foodboards">맛집 추천 게시판</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/travelboards">여행 정보 게시판</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+</body>
+</html>

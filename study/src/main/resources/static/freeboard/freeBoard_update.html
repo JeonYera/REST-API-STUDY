@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글 수정</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .container {
+    width: 1200px;
+  }
+  .navbar-nav {
+    margin: 0 auto;
+    justify-content: center;
+    gap: 100px;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  .navbar-brand {
+    margin: 0 auto;
+    justify-content: center;
+  }
+  #freeContent {
+    resize: none;
+  }
+  .navbar {
+    margin-bottom: 50px;
+  }
+</style>
+</head>
+<body>
+<div class="container my-2">
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
+    <a class="navbar-brand" href="/">맛있는여행</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/freeboards">자유게시판</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/foodboards">맛집 추천 게시판</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/travelboards">여행 정보 게시판</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <h1>글 수정</h1>
+  <form id="createBoardForm">
+    <div class="mb-3">
+      <label for="freeTitle" class="form-label">제목:</label>
+      <input type="text" class="form-control" id="freeTitle" name="freeTitle" required>
+    </div>
+    <div class="mb-3">
+      <label for="freeContent" class="form-label">내용:</label>
+      <textarea class="form-control" id="freeContent" name="freeContent" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="background-color: #58acfa; border: none;">수정하기</button>
+    <a href="/freeboards" class="btn btn-secondary" style="background-color: #c8c8c8; border: none;">돌아가기</a>
+  </form>
+</div>
+<script>
+  const pathArray = window.location.pathname.split('/');
+  const id = pathArray[pathArray.length - 1]; // URL로부터 ID 추출
+
+  // 페이지 로드 시 게시글 데이터 불러오기
+  window.onload = function() {
+    fetch(`http://localhost:8080/api/freeboards/${id}`)
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('freeTitle').value = data.freeTitle;
+              document.getElementById('freeContent').value = data.freeContent;
+            })
+            .catch(error => console.error('Error:', error));
+  };
+
+  // 수정하기
+  document.getElementById('createBoardForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('freeTitle').value;
+    const content = document.getElementById('freeContent').value;
+
+    fetch(`http://localhost:8080/api/freeboards/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        freeTitle: title,
+        freeContent: content,
+        freeUserId: 'user1'
+      })
+    })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Success:', data);
+              alert('게시글이 성공적으로 수정되었습니다.');
+              window.location.href = `/freeboards/${id}`;
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('게시글 수정에 실패했습니다.');
+            });
+  });
+</script>
+</body>
+</html>

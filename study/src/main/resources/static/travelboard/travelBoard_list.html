@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 예제</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            width: 1200px;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        .table td {
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
+        <a class="navbar-brand" href="/">맛있는여행</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/freeboards">자유게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/foodboards">맛집 추천 게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/travelboards">여행 정보 게시판</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th style="text-align: center; border-left: none;">번호</th>
+            <th style="text-align: center;">제목</th>
+            <th style="text-align: center;">작성자</th>
+            <th style="text-align: center;">작성일시</th>
+        </tr>
+        </thead>
+        <tbody id="boardList"></tbody>
+    </table>
+    <button class="btn btn-light" id="createButton" style="border: 1px solid #dee2e6;">글쓰기</button>
+</div>
+<script>
+    document.getElementById('createButton').addEventListener('click', function() {
+        window.location.href = "/travelboards/create"
+    });
+
+    fetch('http://localhost:8080/api/travelboards')
+        .then(response => response.json())
+        .then(boards => {
+            const boardList = document.getElementById('boardList');
+            boards.forEach(board => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${board.travelId}</td>
+                                <td><a href="/travelboards/${board.travelId}">${board.travelTitle}</a></td>
+                                <td>${board.travelMemberId}</td>
+                                <td>${board.travelCreatedAt}</td>`;
+                boardList.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching boards:', error));
+</script>
+</body>
+</html>
