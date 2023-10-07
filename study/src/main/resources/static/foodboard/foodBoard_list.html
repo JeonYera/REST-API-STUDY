@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 예제</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .container {
+        width: 1200px;
+    }
+    a {
+        color: #000;
+        text-decoration: none;
+    }
+    .table td {
+        border-bottom: 1px solid #dee2e6;
+</style>
+<body>
+<div class="container my-3">
+    <a class="navbar-brand" href="/" style="margin-bottom: 50px;">맛있는여행</a>
+    <table class="table">
+        <thead style="background-color: white;">
+        <tr>
+            <th style="text-align: center; border-left: none;">번호</th>
+            <th style="text-align: center;">제목</th>
+            <th style="text-align: center;">작성자</th>
+            <th style="text-align: center; border-right: none;">작성일시</th>
+        </tr>
+        </thead>
+        <tbody id="boardList"></tbody>
+    </table>
+    <button class="btn btn-light" id="writeButton" style="border: 1px solid #dee2e6;">글쓰기</button>
+</div>
+<script>
+    fetch('http://localhost:8080/api/foodboards')
+        .then(response => response.json())
+        .then(boards => {
+            const boardList = document.getElementById('boardList');
+            boards.forEach(board => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${board.foodId}</td>
+                <td><a href="/foodboards/${board.foodId}">${board.foodTitle}</a></td>
+                <td>${board.userId}</td>
+                <td>${board.foodCreatedAt}</td>`;
+                boardList.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching boards:', error));
+
+    document.getElementById("writeButton").addEventListener("click", function() {
+        location.href='foodboards/writeBoard';
+    });
+
+</script>
+</body>
+</html>

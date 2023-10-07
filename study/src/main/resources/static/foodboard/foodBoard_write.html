@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            width: 1200px;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        #freeContent {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <a class="navbar-brand" href="/" style="margin-bottom: 50px;">맛있는여행</a>
+    <h1>글 작성</h1>
+    <form enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="foodTitle" class="form-label">제목:</label>
+            <input type="text" class="form-control" id="foodTitle" required>
+        </div>
+        <div class="form-group">
+            <label for="file">파일 선택</label>
+            <input type="file" class="form-control-file" id="file" name="file">
+        </div>
+        <div class="mb-3">
+            <label for="foodContent" class="form-label">내용:</label>
+            <textarea class="form-control" id="foodContent" rows="4" required></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" style="background-color: #58acfa; border: none;" onclick="submitPost()">게시글 작성</button>
+        <a href="/foodboards" class="btn btn-secondary" style="background-color: #c8c8c8; border: none;">돌아가기</a>
+    </form>
+</div>
+
+<script>
+    function submitPost() {
+        const formData = new FormData();
+        formData.append("foodTitle", document.querySelector("#foodTitle").value);
+        formData.append("foodContent", document.querySelector("#foodContent").value);
+        formData.append("foodUserId", "user1");
+
+        const fileInput = document.querySelector("#file");
+        if (fileInput.files.length > 0) {
+            formData.append("images", fileInput.files[0]);
+        }
+
+        fetch("/api/foodboards", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Network response was not ok");
+                }
+            })
+            .then(data => {
+                window.location.href = "/foodboards";
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+            });
+    }
+</script>
+</body>
+</html>

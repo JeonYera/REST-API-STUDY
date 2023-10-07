@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 디테일</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .container {
+        width: 1200px;
+    }
+    a {
+        color: #000;
+        text-decoration: none;
+    }
+    #freeContent {
+        resize: none;
+    }
+</style>
+</head>
+<body>
+<div class="container my-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
+        <a class="navbar-brand" href="/">맛있는여행</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/freeboards">자유게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/foodboards">맛집 추천 게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/travelboards">여행 정보 게시판</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1>게시글 수정하기</h1>
+    <form id="updateBoardForm">
+        <p>ID: <span id="travelId"></span></p>
+        <p>작성자: <span id="travelMemberId"></span></p>
+        <div class="mb-3">
+            <label for="travelTitle" class="form-label">제목:</label>
+            <textarea type="text" class="form-control" id="travelTitle" name="travelTitle" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="travelContent" class="form-label">내용:</label>
+            <textarea class="form-control" id="travelContent" name="travelContent" required></textarea>
+        </div>
+        <p>작성일: <span id="travelCreatedAt"></span></p>
+    </form>
+    <button class="btn btn-primary" id="updateButton">수정하기</button>
+</div>
+
+
+<script>
+    const url = window.location.href;
+    const id = url.substring(url.lastIndexOf('/') + 1);
+
+    fetch(`http://localhost:8080/api/travelboards/${id}`)
+        .then(response => response.json())
+        .then(board => {
+            document.getElementById('travelId').textContent = board.travelId;
+            document.getElementById('travelMemberId').textContent = board.travelMemberId;
+            document.getElementById('travelTitle').value = board.travelTitle;
+            document.getElementById('travelContent').value = board.travelContent;
+            document.getElementById('travelCreatedAt').textContent = board.travelCreatedAt;
+        })
+        .catch(error => console.error('Error fetching board:', error));
+
+    document.getElementById('updateButton').addEventListener('click', function () {
+        const travelMemberId = document.getElementById('travelMemberId').textContent;
+        const updatedTitle = document.getElementById('travelTitle').value;
+        const updatedContent = document.getElementById('travelContent').value;
+        fetch(`http://localhost:8080/api/travelboards/updateBoard/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                travelMemberId: travelMemberId,
+                travelTitle: updatedTitle,
+                travelContent: updatedContent
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('글 수정 성공:', data);
+
+                window.location.href = `/travelboards/${id}`;
+            })
+            .catch(error => {
+                console.error('글 수정 오류:', error);
+            });
+    });
+
+</script>
+
+</body>
+</html>

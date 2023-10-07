@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 디테일</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            width: 1200px;
+            padding: 20px;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        .navbar-brand {
+            font-size: 24px;
+        }
+        .display-4 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        .lead {
+            font-size: 18px;
+        }
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
+        <a class="navbar-brand" href="/">맛있는여행</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/freeboards">자유게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/foodboards">맛집 추천 게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/travelboards">여행 정보 게시판</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1 >게시판 디테일</h1>
+    <p class="lead">ID: <span id="travelId"></span></p>
+    <p class="lead">작성자: <span id="travelMemberId"></span></p>
+    <p class="display-4">제목: <span id="travelTitle"></span></p>
+    <p>내용:</p>
+    <div id="travelContent"></div>
+    <p>작성일: <span id="travelCreatedAt"></span></p>
+    <button class="btn btn-primary" id="updateButton" style="background-color: #58acfa; border: none;">수정하기</button>
+    <button class="btn btn-primary" id="deleteButton" style="background-color: #c8c8c8; border: none;">삭제하기</button>
+    <button class="btn btn-primary" id="listButton" style="background-color: #c8c8c8; border: none;">목록으로</button>
+</div>
+
+<script>
+    const url = window.location.href;
+    const id = url.substring(url.lastIndexOf('/') + 1);
+
+    fetch(`http://localhost:8080/api/travelboards/${id}`)
+        .then(response => response.json())
+        .then(board => {
+            document.getElementById('travelId').textContent = board.travelId;
+            document.getElementById('travelMemberId').textContent = board.travelMemberId;
+            document.getElementById('travelTitle').textContent = board.travelTitle;
+            document.getElementById('travelContent').textContent = board.travelContent;
+            document.getElementById('travelCreatedAt').textContent = board.travelCreatedAt;
+        })
+        .catch(error => console.error('Error fetching board:', error));
+
+    document.getElementById('updateButton').addEventListener('click', function() {
+        window.location.href = `/travelboards/update/${id}`
+    });
+
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        fetch(`http://localhost:8080/api/travelboards/deleteBoard/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                console.log('글 삭제 성공');
+                window.location.href = `/travelboards`;
+            })
+            .catch(error => {
+                console.error('글 삭제 오류:', error);
+            });
+    });
+
+    document.getElementById('listButton').addEventListener('click', function() {
+        window.location.href = `/travelboards`
+    });
+</script>
+
+</body>
+</html>
