@@ -65,12 +65,22 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 
     @Override
     @Transactional
-    public FreeBoardReadDto editBoard(Long id, FreeBoardDto updateDto, User user) {
+    public FreeBoardReadDto editBoard(Long id, FreeBoardDto updateDto, User user, List<MultipartFile> images) throws IOException {
         FreeBoard freeBoard = freeBoardRepository.findById(id).orElseThrow();
         freeBoard.setFreeTitle(updateDto.getFreeTitle());
         freeBoard.setFreeContent(updateDto.getFreeContent());
         freeBoard.setUser(user);
         FreeBoard updatedFreeBoard = freeBoardRepository.save(freeBoard);
+
+        List<FreeImageAttachment> uploadedImages = new ArrayList<>();
+        if (images != null) {
+            for (MultipartFile file : images) {
+                FreeImageAttachment image = (FreeImageAttachment) imageService.uploadFile(file, freeBoard);
+                uploadedImages.add(image);
+            }
+        }
+
+        freeBoard.setImages(uploadedImages);
         return FreeBoardReadDto.toDto(updatedFreeBoard);
     }
 }

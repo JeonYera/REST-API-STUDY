@@ -19,6 +19,6 @@ public interface FreeBoardService {
 
     void deleteBoard(Long id);
 
-    FreeBoardReadDto editBoard(Long id, FreeBoardDto updateDto, User user);
+    FreeBoardReadDto editBoard(Long id, FreeBoardDto updateDto, User user, List<MultipartFile> images) throws IOException;
 
 }

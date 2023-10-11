@@ -1,5 +1,6 @@
 package com.rest.study.board.freeboard.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.study.board.freeboard.dto.FreeBoardReadDto;
 import com.rest.study.user.entity.User;
@@ -57,9 +58,16 @@ public class FreeBoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FreeBoardReadDto> editBoard(@PathVariable("id") Long id, @Valid @RequestBody FreeBoardDto freeBoardDto) {
+    public ResponseEntity<FreeBoardReadDto> editBoard(
+            @RequestParam("freeBoardDto") String freeBoardDtoStr,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images,
+            @PathVariable("id") Long id) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        FreeBoardDto freeBoardDto = objectMapper.readValue(freeBoardDtoStr, FreeBoardDto.class);
+
         User user = userService.findByUserId(freeBoardDto.getFreeUserId());
-        FreeBoardReadDto freeBoard = freeBoardService.editBoard(id, freeBoardDto, user);
+        FreeBoardReadDto freeBoard = freeBoardService.editBoard(id, freeBoardDto, user, images);
         return ResponseEntity.ok(freeBoard);
     }
 
