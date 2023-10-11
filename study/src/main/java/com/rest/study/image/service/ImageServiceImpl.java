@@ -33,8 +33,6 @@ public class ImageServiceImpl implements ImageService {
     @Value("${image.upload.directory}")
     private String imageUploadDirectory; // 이미지 파일 저장 경로
     private Path fileDir;
-    private final String TYPE_CSV = "text/csv";
-    private String dir = "/tmp";
 
     @PostConstruct
     public void postConstruct() {

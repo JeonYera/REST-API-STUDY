@@ -26,7 +26,7 @@ create table board(
     board_user_id varchar2(50) not null,
     board_title varchar2(500) not null,
     board_content varchar2(4000) not null,
-    board_created_at timestamp default systimestamp,
+    board_created_at date default systimestamp,
     constraints pk_board_id primary key(board_id),
     constraints fk_board_user_id foreign key(board_user_id) references user_tbl(user_id) on delete cascade
 );
@@ -39,7 +39,7 @@ create table image (
     origin_name varchar2(500) not null,
     unique_name varchar2(500) not null,
     image_file_size number not null,
-    constraint pk_image_attachment_id primary key(image_id),
+    constraint pk_image_id primary key(image_id),
     constraint fk_board_id foreign key(board_id) references board(board_id)
 );
 
