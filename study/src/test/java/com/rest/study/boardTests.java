@@ -1,28 +1,28 @@
 package com.rest.study;
 
 import com.rest.study.user.entity.User;
-import com.rest.study.board.entity.FreeBoard;
-import com.rest.study.board.repository.FreeBoardRepository;
+import com.rest.study.board.entity.Board;
+import com.rest.study.board.repository.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class FreeBoardTests {
+public class boardTests {
 
     @Autowired
-    private FreeBoardRepository freeBoardRepository;
+    private BoardRepository boardRepository;
 
     @Test
     void testJpa() {
-        FreeBoard q1 = new FreeBoard();
-        q1.setFreeTitle("아이유 콘서트 보신 분?");
-        q1.setFreeContent("너무 재밌어요,,,");
+        Board q1 = new Board();
+        q1.setBoardTitle("아이유 콘서트 보신 분?");
+        q1.setBoardContent("너무 재밌어요,,,");
 
         User user = new User();
         user.setUserId("user1");
 
         q1.setUser(user);
-        this.freeBoardRepository.save(q1);
+        this.boardRepository.save(q1);
     }
 }

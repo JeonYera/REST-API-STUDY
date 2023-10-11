@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Override
-    public User findByUserId(String freeUserId) {
-        return userRepository.findByUserId(freeUserId);
+    public User findByUserId(String boardUserId) {
+        return userRepository.findByUserId(boardUserId);
     }
 }

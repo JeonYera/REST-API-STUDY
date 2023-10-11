@@ -1,6 +1,6 @@
 package com.rest.study.image.controller;
 
-import com.rest.study.board.entity.FreeBoard;
+import com.rest.study.board.entity.Board;
 import com.rest.study.image.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -25,8 +26,8 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping("/uploadFile")
-    public ResponseEntity<?> uploadFile(@RequestParam ("file")MultipartFile file, FreeBoard freeBoard) throws IOException {
-        return ResponseEntity.ok(imageService.uploadFile(file, freeBoard));
+    @PostMapping("/uploadFiles")
+    public ResponseEntity<?> uploadFiles(@RequestParam("files") List<MultipartFile> files, Board board)throws IOException{
+        return ResponseEntity.ok(imageService.uploadFile(files, board));
     }
 }

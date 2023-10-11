@@ -1,6 +1,6 @@
 package com.rest.study.image.entity;
 
-import com.rest.study.board.entity.FreeBoard;
+import com.rest.study.board.entity.Board;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,9 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@ToString(exclude = "freeBoard")
-@Table(name = "image_attachment")
-public class ImageAttachment {
+@ToString(exclude = "board")
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IMAGE_ID")
@@ -29,7 +28,7 @@ public class ImageAttachment {
     private Long imageFileSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="FREE_ID")
-    private FreeBoard freeBoard;
+    @JoinColumn(name="BOARD_ID")
+    private Board board;
 
 }

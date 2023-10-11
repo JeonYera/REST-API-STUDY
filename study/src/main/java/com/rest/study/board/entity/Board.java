@@ -1,7 +1,7 @@
 package com.rest.study.board.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rest.study.image.entity.ImageAttachment;
+import com.rest.study.image.entity.Image;
 import com.rest.study.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,33 +15,33 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@SequenceGenerator(name = "SEQ_FREE_BOARD_ID", sequenceName = "SEQ_FREE_BOARD_ID", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "SEQ_BOARD_ID", sequenceName = "SEQ_BOARD_ID", initialValue = 1, allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class FreeBoard {
+public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FREE_BOARD_ID")
-    private Long freeId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_ID")
+    private Long boardId;
 
     @Column(nullable = false, length = 100)
-    private String freeTitle;
+    private String boardTitle;
 
     @Column(nullable = false)
-    private String freeContent;
+    private String boardContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FREE_USER_ID", nullable = false)
+    @JoinColumn(name = "BOARD_USER_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @CreationTimestamp
-    private Timestamp freeCreatedAt;
+    private Timestamp boardCreatedAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ImageAttachment> images;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Image> images;
 }
