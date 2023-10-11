@@ -1,13 +1,11 @@
 package com.rest.study;
 
 import com.rest.study.user.entity.User;
-import com.rest.study.board.freeboard.entity.FreeBoard;
-import com.rest.study.board.freeboard.repository.FreeBoardRepository;
+import com.rest.study.board.entity.FreeBoard;
+import com.rest.study.board.repository.FreeBoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
 
 @SpringBootTest
 public class FreeBoardTests {

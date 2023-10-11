@@ -1,7 +1,7 @@
 package com.rest.study.user.repository;
 
 import com.rest.study.user.entity.User;
-import com.rest.study.board.freeboard.entity.FreeBoard;
+import com.rest.study.board.entity.FreeBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
