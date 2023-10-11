@@ -1,15 +1,16 @@
 package com.rest.study.board.freeboard.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rest.study.board.foodboard.dto.FoodBoardReadDto;
 import com.rest.study.board.freeboard.dto.FreeBoardReadDto;
 import com.rest.study.user.entity.User;
 import com.rest.study.user.service.UserService;
-import com.rest.study.board.freeboard.dto.FreeBoardDto;
+import com.rest.study.board.freeboard.dto.FreeBoardCreateDto;
 import com.rest.study.board.freeboard.entity.FreeBoard;
 import com.rest.study.board.freeboard.service.FreeBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,18 +44,9 @@ public class FreeBoardController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(freeBoard);
     }
-
-    @PostMapping("/write")
-    public ResponseEntity<?> writeBoard(
-            @RequestParam("freeBoardDto") String freeBoardDtoStr,
-            @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
-
-        // Jackson 라이브러리를 사용해서 JSON 문자열을 Java 객체로 변환하기 위한 ObjectMapper 객체를 생성
-        ObjectMapper objectMapper = new ObjectMapper();
-        FreeBoardDto freeBoardDto = objectMapper.readValue(freeBoardDtoStr, FreeBoardDto.class);
-
-        FreeBoard freeBoard = freeBoardService.save(freeBoardDto, images);
-        return ResponseEntity.ok(freeBoard);
+    @PostMapping("/{write}")
+    public ResponseEntity<FreeBoardReadDto> writeBoard(@ModelAttribute FreeBoardCreateDto freeBoardCreateDto) throws IOException {
+        return ResponseEntity.ok(freeBoardService.writeBoard(freeBoardCreateDto));
     }
 
     @PutMapping("/{id}")
@@ -64,7 +56,7 @@ public class FreeBoardController {
             @PathVariable("id") Long id) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        FreeBoardDto freeBoardDto = objectMapper.readValue(freeBoardDtoStr, FreeBoardDto.class);
+        FreeBoardCreateDto freeBoardDto = objectMapper.readValue(freeBoardDtoStr, FreeBoardCreateDto.class);
 
         User user = userService.findByUserId(freeBoardDto.getFreeUserId());
         FreeBoardReadDto freeBoard = freeBoardService.editBoard(id, freeBoardDto, user, images);

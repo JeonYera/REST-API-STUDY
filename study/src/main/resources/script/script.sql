@@ -1,15 +1,16 @@
 
-drop table user;
+drop table USER_TBL;
 drop table free_board;
 drop table food_board;
 drop table travel_board;
 drop table image_attachment;
 drop table image_attachment_mapping;
 
-select * from "USER";
+select * from USER_TBL;
+select * from free_board order by free_id desc;
 
 -- 회원 테이블
-create table "USER" (
+create table USER_TBL (
     user_id varchar2(50),
     name varchar2(10),
     password varchar2(300) not null,

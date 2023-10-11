@@ -75,11 +75,9 @@
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('freeBoardDto', JSON.stringify({
-      freeTitle: document.getElementById('freeTitle').value,
-      freeContent: document.getElementById('freeContent').value,
-      freeUserId: 'user1'
-    }));
+    formData.append('freeTitle', document.getElementById('freeTitle').value);
+    formData.append('freeContent', document.getElementById('freeContent').value);
+    formData.append('freeUserId', 'user1');
 
     // 이미지 파일이 선택되었을 때만 FormData에 추가
     const imageInput = document.getElementById('images');
@@ -87,9 +85,9 @@
       formData.append('images', imageInput.files[0]);
     }
 
-      fetch('http://localhost:8080/api/freeboards/write', {
+    fetch('http://localhost:8080/api/freeboards/write', {
       method: 'POST',
-        body: formData
+      body: formData
     })
             .then(response => response.json())
             .then(data => {

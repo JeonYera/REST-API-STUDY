@@ -1,6 +1,6 @@
 package com.rest.study.board.freeboard.service;
 
-import com.rest.study.board.freeboard.dto.FreeBoardDto;
+import com.rest.study.board.freeboard.dto.FreeBoardCreateDto;
 import com.rest.study.board.freeboard.dto.FreeBoardReadDto;
 import com.rest.study.board.freeboard.entity.FreeBoard;
 import com.rest.study.user.entity.User;
@@ -15,10 +15,10 @@ public interface FreeBoardService {
 
     FreeBoardReadDto findBoard(Long id);
 
-    FreeBoard save(FreeBoardDto freeBoardDto, List<MultipartFile> images) throws IOException;
+    FreeBoardReadDto writeBoard(FreeBoardCreateDto freeBoardCreateDto) throws IOException;
 
     void deleteBoard(Long id);
 
-    FreeBoardReadDto editBoard(Long id, FreeBoardDto updateDto, User user, List<MultipartFile> images) throws IOException;
+    FreeBoardReadDto editBoard(Long id, FreeBoardCreateDto updateDto, User user, List<MultipartFile> images) throws IOException;
 
 }
