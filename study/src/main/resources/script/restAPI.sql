@@ -1,12 +1,6 @@
 
-drop table USER_TBL;
-drop table board;
-drop table image_attachment;
 
-select * from USER_TBL;
-select * from board order by free_id desc;
 
-create sequence seq_board_id;
 
 -- 회원 테이블
 create table USER_TBL (
@@ -16,7 +10,7 @@ create table USER_TBL (
     email varchar2(100),
     phone varchar2(20),
     enroll_date date default sysdate,
-    constraints pk_member_id primary key(user_id)
+    constraints pk_user_id primary key(user_id)
 );
 
 
@@ -42,4 +36,5 @@ create table image (
     constraint pk_image_id primary key(image_id),
     constraint fk_board_id foreign key(board_id) references board(board_id)
 );
+
 
