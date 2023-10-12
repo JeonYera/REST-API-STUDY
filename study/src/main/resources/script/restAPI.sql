@@ -1,5 +1,6 @@
 
-
+create sequence seq_image_id;
+create sequence seq_board_id;
 
 
 -- 회원 테이블
