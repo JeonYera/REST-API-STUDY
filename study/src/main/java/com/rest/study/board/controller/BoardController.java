@@ -40,7 +40,7 @@ public class BoardController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(board);
     }
-    @PostMapping("/{write}")
+    @PostMapping
     public ResponseEntity<BoardReadDto> writeBoard(@Valid @ModelAttribute BoardCreateDto boardCreateDto) throws IOException {
         return ResponseEntity.ok(boardService.writeBoard(boardCreateDto));
     }
