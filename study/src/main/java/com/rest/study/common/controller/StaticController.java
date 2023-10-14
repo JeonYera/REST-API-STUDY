@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class StaticController {
 
-   /* @GetMapping("/")
+   @GetMapping("/")
     public String index() {
         return "forward:/index.html";
-    } */
+    }
 
     @RequestMapping(value ="/boards", method = RequestMethod.GET)
     public String boards() { return "forward:/board/board_list.html";
