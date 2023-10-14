@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    private final AmazonS3 amazonS3Client;
+    private final AmazonS3 s3Client;
 
     @Value("${aws.s3.bucket}")
     private String bucket;
@@ -32,7 +32,7 @@ public class FileUploadController {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+            s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e) {
             e.printStackTrace();

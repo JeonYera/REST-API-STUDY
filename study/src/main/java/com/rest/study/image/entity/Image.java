@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@SequenceGenerator(name = "SEQ_IMAGE_ID", sequenceName = "SEQ_IMAGE_ID", initialValue = 1, allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +14,7 @@ import javax.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IMAGE_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
 
     @Column(nullable = false)

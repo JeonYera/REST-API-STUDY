@@ -15,7 +15,6 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@SequenceGenerator(name = "SEQ_BOARD_ID", sequenceName = "SEQ_BOARD_ID", initialValue = 1, allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +23,7 @@ import java.util.List;
 public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
     @Column(nullable = false, length = 100)
