@@ -1,4 +1,4 @@
-package com.rest.study.image.entity;
+package com.rest.study.S3.entity;
 
 import com.rest.study.board.entity.Board;
 import lombok.*;
@@ -20,14 +20,14 @@ public class Image {
     @Column(nullable = false)
     private String originName;
 
-    @Column(nullable = false)
-    private String uniqueName;
+    @Column(name = "s3_url", nullable = false, length = 1000)
+    private String s3Url;
 
-    @Column(nullable = false)
+    @Column(name = "image_file_size", nullable = false)
     private Long imageFileSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="BOARD_ID")
+    @JoinColumn(name = "board_id", referencedColumnName = "board_id")
     private Board board;
 
 }

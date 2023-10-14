@@ -1,9 +1,7 @@
-package com.rest.study.S3;
+package com.rest.study.S3.controller;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.rest.study.S3.service.FileServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,21 +17,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    private final AmazonS3 s3Client;
-
-    @Value("${aws.s3.bucket}")
-    private String bucket;
+    private final FileServiceImpl fileService;
 
     @PostMapping
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            String fileName = file.getOriginalFilename();
-            String fileUrl = "https://" + bucket + ".s3.amazonaws.com/" + fileName;
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
-            metadata.setContentLength(file.getSize());
-            s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-            return ResponseEntity.ok(fileUrl);
+            return ResponseEntity.ok(fileService.uploadFile(file));
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

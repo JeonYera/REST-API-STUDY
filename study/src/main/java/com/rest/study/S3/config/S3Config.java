@@ -1,4 +1,4 @@
-package com.rest.study.S3;
+package com.rest.study.S3.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

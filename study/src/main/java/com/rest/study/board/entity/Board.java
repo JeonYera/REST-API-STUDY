@@ -1,7 +1,7 @@
 package com.rest.study.board.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rest.study.image.entity.Image;
+import com.rest.study.S3.entity.Image;
 import com.rest.study.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +24,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "board_id")
     private Long boardId;
 
     @Column(nullable = false, length = 100)

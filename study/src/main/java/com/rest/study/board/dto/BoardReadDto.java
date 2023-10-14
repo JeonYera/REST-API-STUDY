@@ -1,7 +1,7 @@
 package com.rest.study.board.dto;
 
 import com.rest.study.board.entity.Board;
-import com.rest.study.image.entity.Image;
+import com.rest.study.S3.entity.Image;
 import com.rest.study.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
