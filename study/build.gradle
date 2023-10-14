@@ -33,10 +33,11 @@ dependencies {
 	implementation 'com.oracle.database.security:oraclepki'
 	implementation 'com.oracle.database.security:osdt_cert'
 	implementation 'com.oracle.database.security:osdt_core'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
+	implementation 'mysql:mysql-connector-java:8.0.26'
 
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
