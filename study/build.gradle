@@ -39,6 +39,8 @@ dependencies {
 
 	implementation 'mysql:mysql-connector-java:8.0.26'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
