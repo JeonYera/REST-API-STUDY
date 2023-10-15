@@ -82,7 +82,7 @@ const pathArray = window.location.pathname.split('/');
 const id = pathArray[pathArray.length - 1];
 const imagesElement = document.getElementById('images');
 
-fetch(`http://localhost:8080/api/boards/${id}`)
+fetch(`http://13.125.15.96:8080/api/boards/${id}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('서버 응답이 없습니다. ' + response.statusText);
@@ -103,7 +103,7 @@ fetch(`http://localhost:8080/api/boards/${id}`)
 
             images.forEach(image => {
               const imageElement = document.createElement('img');
-              const imagePath = `/images/${image.uniqueName}`;
+              const imagePath = `${image.s3Url}`;
 
               // 이미지 스타일 설정
               imageElement.style.maxWidth = '800px'; // 최대 너비를 화면 너비에 맞춤
@@ -127,7 +127,7 @@ document.getElementById('editButton').addEventListener('click', function() {
 });
 
 document.getElementById('deleteButton').addEventListener('click', function() {
-  fetch(`http://localhost:8080/api/boards/${id}`, {
+  fetch(`http://13.125.15.96:8080/api/boards/${id}`, {
     method: 'DELETE',
   })
           .then(response => {
