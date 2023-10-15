@@ -10,6 +10,9 @@
 # application-secret.properties
 application-secret.properties
 
+# AWS
+restapi-key.pem
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
