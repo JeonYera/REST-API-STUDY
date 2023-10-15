@@ -82,7 +82,7 @@ const pathArray = window.location.pathname.split('/');
 const id = pathArray[pathArray.length - 1];
 const imagesElement = document.getElementById('images');
 
-fetch(`http://13.125.15.96:8080/api/boards/${id}`)
+fetch(`http://13.209.5.240:8080/api/boards/${id}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('서버 응답이 없습니다. ' + response.statusText);
@@ -127,7 +127,7 @@ document.getElementById('editButton').addEventListener('click', function() {
 });
 
 document.getElementById('deleteButton').addEventListener('click', function() {
-  fetch(`http://13.125.15.96:8080/api/boards/${id}`, {
+  fetch(`http://13.209.5.240:8080/api/boards/${id}`, {
     method: 'DELETE',
   })
           .then(response => {
