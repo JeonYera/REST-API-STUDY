@@ -108,6 +108,7 @@ fetch(`http://13.209.5.240:8080/api/boards/${id}`)
               // 이미지 스타일 설정
               imageElement.style.maxWidth = '800px'; // 최대 너비를 화면 너비에 맞춤
               imageElement.style.height = 'auto'; // 자동으로 높이 조절
+              imageElement.style.marginBottom = '30px'; // 이미지 하단에 margin 30px
 
               imageElement.src = imagePath;
               imageElement.alt = image.originName; // 이미지 대체 텍스트 설정

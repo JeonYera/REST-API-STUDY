@@ -68,8 +68,8 @@ function formatDate(isoString) {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-fetch('http://13.209.5.240:8080/api/boards')
-    .then(response => response.json())
+fetch('http://localhost:5000/api/boards')
+        .then(response => response.json())
     .then(boards => {
         const boardList = document.getElementById('boardList');
         boards.forEach(board => {
