@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://13.209.5.240")
+// @CrossOrigin(origins = "http://13.209.5.240")
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api/boards")
 @RestController
