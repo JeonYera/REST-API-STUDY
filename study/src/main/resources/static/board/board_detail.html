@@ -5,53 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 상세</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<style>
-  .container {
-    width: 1200px;
-  }
-  .navbar-nav {
-    margin: 0 auto;
-    justify-content: center;
-    gap: 100px;
-  }
-  a {
-    color: #000;
-    text-decoration: none;
-  }
-  .navbar-brand {
-    margin: 0 auto;
-    justify-content: center;
-  }
-  .display-4 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 10px;
-  }
-  .lead {
-    font-size: 18px;
-  }
-  hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-top: 1px solid #dee2e6;
-  }
-  .navbar {
-    margin-bottom: 50px;
-  }
-</style>
+  <link href="/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container my-2">
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent mx-auto border-bottom">
-    <a class="navbar-brand" href="/boards">호두네</a>
+    <a class="navbar-brand" href="/board/board_list.html">호두네</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="/boards">반려동물자랑게시판</a>
+          <a class="nav-link" href="/board/board_list.html">반려동물자랑게시판</a>
         </li>
       </ul>
     </div>
@@ -64,7 +30,7 @@
   <div id="content" class="mb-5"></div>
   <button type="submit" class="btn btn-primary" id="editButton" style="background-color: #58acfa; border: none;">수정하기</button>
   <button class="btn btn-danger mx-2" id="deleteButton" style="background-color: #c8c8c8; border: none;">삭제하기</button>
-  <a href="/boards" class="btn btn-secondary" style="background-color: #c8c8c8; border: none;">돌아가기</a>
+  <a href="/board/board_list.html" class="btn btn-secondary" style="background-color: #c8c8c8; border: none;">돌아가기</a>
 </div>
 <script>
 function formatDate(isoString) {
@@ -82,7 +48,19 @@ const pathArray = window.location.pathname.split('/');
 const id = pathArray[pathArray.length - 1];
 const imagesElement = document.getElementById('images');
 
-fetch(`http://13.209.5.240:8080/api/boards/${id}`)
+// URL에서 boardId 값을 가져오는 함수
+function getParameterByName(name, url = window.location.href) {
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+const boardId = getParameterByName('boardId');
+
+fetch(`http://localhost:5000/api/boards/${boardId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('서버 응답이 없습니다. ' + response.statusText);
@@ -123,18 +101,17 @@ fetch(`http://13.209.5.240:8080/api/boards/${id}`)
         });
 
 document.getElementById('editButton').addEventListener('click', function() {
-  console.log(id);
-  window.location.href = `/boards/updateBoard/${id}`;
+  window.location.href = `/board/board_update.html?boardId=${boardId}`;
 });
 
 document.getElementById('deleteButton').addEventListener('click', function() {
-  fetch(`http://13.209.5.240:8080/api/boards/${id}`, {
+  fetch(`http://localhost:5000/api/boards/${boardId}`, {
     method: 'DELETE',
   })
           .then(response => {
             if (response.ok) {
               alert('게시글이 삭제되었습니다.');
-              window.location.href = '/boards';
+              window.location.href = '/board/board_list.html';
             } else {
               alert('게시글 삭제에 실패했습니다.');
             }
